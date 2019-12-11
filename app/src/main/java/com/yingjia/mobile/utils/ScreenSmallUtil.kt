@@ -46,6 +46,21 @@ class ScreenSmallUtil {
         fun getDensityDpi(context: Context): Int {
             return context.resources.displayMetrics.densityDpi
         }
+
+        /**
+         * 获取宽度（像素） 会随着屏幕旋转 改变
+         */
+        fun getScreenWidth(context: Context): Int {
+            return context.resources.displayMetrics.widthPixels
+        }
+
+        /**
+         * 获取高度（像素） 会随着屏幕旋转 改变
+         */
+        fun getScreenHeight(context: Context): Int {
+            return context.resources.displayMetrics.heightPixels
+        }
+
     }
 
 }
