@@ -1,7 +1,6 @@
 package com.yingjia.mobile.widget
 
 import android.animation.TimeInterpolator
-import android.app.Activity
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -9,9 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
-import java.lang.IllegalArgumentException
-import java.util.zip.Inflater
-import kotlin.collections.*
 
 
 /**

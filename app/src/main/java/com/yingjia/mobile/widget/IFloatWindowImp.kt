@@ -3,6 +3,7 @@ package com.yingjia.mobile.widget
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
+import android.view.View
 import android.view.WindowManager
 
 /**
@@ -14,6 +15,8 @@ class IFloatWindowImp : IFloatWindow {
     private var mB: FloatWindow.B? = null
     lateinit var mWindowManager: WindowManager
     lateinit var mLayoutParams: WindowManager.LayoutParams
+    lateinit var mView: View
+    private var once: Boolean = true
 
     constructor(b: FloatWindow.B) {
         mB = b
@@ -30,13 +33,33 @@ class IFloatWindowImp : IFloatWindow {
             mLayoutParams.height = b.mHeight
             mLayoutParams.gravity = b.gravity
             mLayoutParams.x = b.xOffset
+            mLayoutParams.y = b.yOffset
+            mView = b.mView!!
+
 
         }
 
     }
 
+
+    private fun req() {
+        //对于8.0之后的适配
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        } else {
+            mLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE
+
+        }
+    }
+
     override fun show() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (once){
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                req()
+            }
+        }
+
     }
 
     override fun hide() {
