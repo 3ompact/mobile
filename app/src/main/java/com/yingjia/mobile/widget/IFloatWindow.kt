@@ -1,5 +1,7 @@
 package com.yingjia.mobile.widget
 
+import android.view.View
+
 /**
  * Created by 3ompact on 2019/12/10 16:11
  *
@@ -21,7 +23,7 @@ abstract class IFloatWindow {
 
     abstract fun updateY(y:Int)
 
-    abstract fun getView()
+    abstract fun getView(): View?
 
     abstract fun dismiss()
 

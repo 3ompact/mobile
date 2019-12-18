@@ -3,8 +3,11 @@ package com.yingjia.mobile.widget
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
-import android.view.View
+import android.view.ViewConfiguration
 import android.view.WindowManager
+import com.yingjia.mobile.utils.Miui
+import java.lang.Exception
+import android.view.View as View
 
 /**
  * Created by 3ompact on 2019/12/10 16:08 悬浮窗控件
@@ -17,6 +20,8 @@ class IFloatWindowImp : IFloatWindow {
     lateinit var mLayoutParams: WindowManager.LayoutParams
     lateinit var mView: View
     private var once: Boolean = true
+    private val isShow: Boolean = true
+    private var mSlop: Int? = null
 
     constructor(b: FloatWindow.B) {
         mB = b
@@ -54,12 +59,38 @@ class IFloatWindowImp : IFloatWindow {
 
     override fun show() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        if (once){
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-                req()
+        if (once) {
+            init()
+            once = false
+            isShow = true
+        } else {
+            if (isShow) {
+                return
             }
+            getView()!!.visibility = View.GONE
         }
 
+    }
+
+    private fun init() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            req()
+        } else if (Miui.rom()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                req()
+            } else {
+                mLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE
+            }
+        } else {
+            try {
+                mLayoutParams.type = WindowManager.LayoutParams.TYPE_TOAST
+                mWindowManager.addView(mView, mLayoutParams)
+            } catch (e: Exception) {
+                mWindowManager.removeView(mView)
+                req()
+            }
+
+        }
     }
 
     override fun hide() {
@@ -86,12 +117,16 @@ class IFloatWindowImp : IFloatWindow {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getView(): View? {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mSlop = ViewConfiguration.get(mB!!.mApplicationContext).scaledTouchSlop
+        return mB!!.mView
+
     }
 
     override fun dismiss() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
 }

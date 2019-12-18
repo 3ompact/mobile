@@ -64,6 +64,11 @@ class FloatWindow {
     class B {
         var mApplicationContext: Context? = null
         var mView: View? = null
+//            get() = field
+//            set(value){
+//                field = value
+//            }
+
         private var mLayoutId: Int? = null
         var mWidth = ViewGroup.LayoutParams.WRAP_CONTENT
         var mHeight = ViewGroup.LayoutParams.WRAP_CONTENT
